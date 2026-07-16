@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Whimsie Web</title>
+ <link rel="icon" href="images\fairy favicon.png" type="image/png">
+ <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+ <header id="head">
+ <nav>
+    <h1 class="pghead">Chocolate Mug cake Recipe</h1>
+    <a href="#ingredients">Ingredients Needed</a>
+    <a href="#recipe">Recipe</a>
+    <a href="#healthBenefits">Health Benefits</a>
+ </nav>
+ </header>
+ <main>
+ <br>
+ <h2 id="ingredients">Ingredients Needed</h2>
+ <pre>
+    <input type="checkbox" class="item-checkbox" >1/4 cup all-purpose flour</input>
+    <input type="checkbox" class="item-checkbox"> 2 tablespoons white granulated sugar</input>
+    <input type="checkbox" class="item-checkbox">1.5 tablespoons unsweetened cocoa powder</input>
+    <input type="checkbox" class="item-checkbox">1/4 teaspoon baking powder</input>
+    <input type="checkbox" class="item-checkbox">A pinch of salt</input>    
+    <input type="checkbox" class="item-checkbox">3 tablespoons milk (dairy or plant-based)</input>
+    <input type="checkbox" class="item-checkbox">1/4 teaspoon vanilla extract</input>
+    <input type="checkbox" class="item-checkbox">Optional: 1 tablespoon of chocolate chips</input><br>
+    <button type="button" class="funbtn"onclick="deselectAll()">Deselect All</button>
+    <script>
+        function deselectAll() {
+            // Target elements by class name to avoid clearing unrelated checkboxes
+            const checkboxes = document.querySelectorAll('.item-checkbox');
+            checkboxes.forEach(cb => cb.checked = false);
+        }
+    </script>
+            
+</pre>
+ <h2 id="recipe">Recipe</h2>
+ <div id="steps">
+<details>
+  <summary>1. Prepare the Mugs</summary>
+  <p> Select a microwave-safe mug that holds at least 12 to 16 ounces 
+    Lightly grease the inside with cooking spray or a drop of oil.</p>
+</details>
+<details>
+    <summary>2. Mix the Dry Ingredients</summary>
+    <p>Add the flour, sugar, cocoa powder, baking powder, and salt directly into the mug.</p>
+</details>
+<details>
+    <summary>3. Add Wet Ingredients</summary>
+    <p>Pour the milk, oil (or melted butter), and vanilla extract into the dry mix. </p>
+</details>
+<details>
+    <summary>4. Add Mix-Ins (Optional)</summary>
+    <p>If you want a gooey center or a chocolatey crunch, 
+    gently drop a small scoop of Nutella or a handful of chocolate chips directly into the center of the batter.
+</p>
+</details>
+<details>
+    <summary>5. Microwave</summary>
+    <p>Place the mug in the center of your microwave. 
+    Cook on high power for 60 to 90 seconds (standard 1000-1200W). 
+    The cake is done when it puffs up and feels firm but spongy to the touch.
+    (If your microwave is under 1000 watts, it may take up to 2 minutes).</p>
+</details>
+<details>
+    <summary>6. Cool and Enjoy</summary>
+    <p>Let the mug cake cool for 1 to 2 minutes before eating, as it will be very hot. 
+    Top it off with a scoop of vanilla ice cream, 
+    a dusting of powdered sugar, or eat it straight from the mug!</p>
+</details>
+
+</div>
+ <h2 id="healthBenefits">Health Benefits</h2>
+ <ul>
+    <pre>
+  <li>Muscle Support & Satiety: 
+    Using almond flour, oat flour, or whey protein boosts protein content, 
+    which keeps you full longer and aids in muscle recovery.
+</li>
+  <li>Antioxidant-Rich: 
+    Incorporating raw cacao or dark chocolate provides polyphenols 
+    that help reduce inflammation and improve heart health.
+</li>
+  <li>Nutrient Density: 
+    Swapping all-purpose flour for ragi (millet) or almond flour 
+    adds essential minerals like calcium and iron.
+</li>
+<li>Cramp Relief: 
+    The magnesium in pure cacao can help soothe menstrual cramps and aid sleep.
+</li>
+</pre>
+</ul>
+
+</main>
+<footer>
+    <p>for feedbacks contact</p>
+    <a href="mailto:sophiacore07@gmail.com">sophiacore07@gmail.com</a>
+
+</footer>
+</body>
+</html>

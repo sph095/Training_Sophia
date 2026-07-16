@@ -1,0 +1,89 @@
+body{
+    background-color: rgb(149, 201, 145);
+    justify-content: center;
+    align-items: center;
+}
+header {
+  background-color: #f9c9e8; /* Dark slate color */
+  padding: 20px 40px;  
+  margin: auto;      /* Spacing inside the banner */
+  display: flex;             /* Activates Flexbox layout */
+  justify-content: space-between; /* Pushes logo to left, nav to right */
+  align-items: center;       /* Centers items vertically */
+  border-bottom: 3px solid #f580ca;
+  box-shadow: 3px 3px 20px #f580ca; 
+  border-radius: 25px;
+  position:sticky;
+  top:0;
+}
+
+/* Style the navigation links inside the header */
+header nav a {
+  color: #96491c;
+  text-decoration: underline wavy #96491c 1px;     /* Removes default underline */
+  margin-left: 20px;         /* Adds gaps between the links */
+  font-weight: bold;
+}
+
+/* Visual feedback when hover occurs */
+header nav a:hover {
+  color: #391e0f;   
+  text-decoration: underline wavy #391e0f 1px;  
+}
+.pghead{
+    color:#93512a;
+}
+.item-checkbox{
+    color: #c27c54;
+    transform: scale(0.1em);
+}
+a{
+    font-size: 1.1rem;
+    color: #805f4d;
+}
+main a:hover{
+    background-color:rgb(190, 239, 190);
+    cursor:pointer;
+;
+}
+.funbtn{
+    height: 30px;
+    width:120px;
+    font-size: 1.2em;
+    border-radius: 25px;
+    border-color: #bc6e41;
+    background-color:rgb(124, 196, 119);
+    color: #805f4d;
+}
+.funbtn:hover{
+    background-color:rgb(168, 239, 168);
+    box-shadow: 3px 3px 20px #805f4d;
+    cursor: pointer;
+}
+main h2{
+    color: #814220;
+}
+footer{
+     background-color: #f9c9e8; 
+     padding: 20px 40px;  
+     margin: auto;     
+     display: flex;          
+     justify-content: space-between;
+     align-items: center;      
+     border-bottom: 3px solid #f580ca;
+     box-shadow: 3px 3px 20px #f580ca; 
+     border-radius: 25px;
+}
+#steps{
+    margin-left: 20px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section, h1, h2, h3 {
+  
+  scroll-margin-top: 150px; 
+}
+
