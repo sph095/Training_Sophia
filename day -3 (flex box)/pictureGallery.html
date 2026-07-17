@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="icon" href="images\fairy favicon.png" type="images/png">
+    <title>Gallery</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background-color: rgb(149, 201, 145);
+        }
+        h1,h4,p{
+            color:rgb(97, 37, 37);
+        }
+
+        .container {
+            display: flex;          
+            flex-wrap: wrap;
+            padding: 0 4px;
+        }
+
+
+        .row {
+            flex: 25%;
+            max-width: 25%;
+            padding: 0 4px;
+            border: 3px dotted beige;
+            border-radius: 20px;
+        }
+        .row img {
+        margin-top: 8px;
+        vertical-align: middle;
+         border-radius:10px;
+            padding: 5px 5px;
+        
+        }
+
+
+        @media screen and (max-width: 800px) {
+        .row {
+            flex: 50%;
+            max-width: 50%;
+            
+        }
+}
+
+
+        @media screen and (max-width: 600px) {
+            .row {
+                flex: 100%;
+                max-width: 100%;
+                }
+}
+</style>
+</head>
+<body>
+    <div>
+        <h1>The responsive gallery</h1>
+        <p>Resize the browser window to see the responsive gallery</h2>
+    <br>
+    </div>
+    <div class="container">
+        <div class="row">
+            <h4>Fairies</h4>
+            <img src="images\fairy3.png" width="100px" height="100px">
+            <img src="images\fairy favicon.png" width="100px" height="100px">
+            <p>A tiny, magical being from folklore, often with delicate wings and a gentle glow. Fairies are known for their playful mischief, their kindness to nature, and their quiet habit of leaving small gifts — a dewdrop on a leaf, a patch of flowers where none grew before.</p>
+             
+        </div>
+        <div class="row">
+            <h4>Mermaids</h4>
+            <img src="images\mer 1.png" width="100px" height="100px" >
+            <img src="images\mer 2.png" width="100px" height="100px">
+            <img src="images\mer3.png" width="100px" height="100px">
+            <img src="images\mer5.png" width="100px" height="100px">
+            <p> A mythical sea creature with the head and upper body of a human and the tail of a fish. In folklore and stories, mermaids are often gentle, curious beings who live in underwater kingdoms, sing beautifully, and sometimes befriend or help humans they meet near the shore.</p>
+          
+        </div>
+        <div class="row">
+            <h4>Witches</h4>
+            <img src="images\wi 1.png" width="100px" height="100px">
+            <img src="images\wi 3.png" width="100px" height="100px">
+            <img src="images\myth2.png" width="100px" height="100px">
+            <img src="images\myth1.png" width="100px" height="100px">
+            <p>A person — often a woman in stories — who works with nature, herbs, and a bit of magic. A good witch uses her knowledge to heal, to protect, and to stir up a little wonder in the ordinary world. She keeps a tidy garden, a warm kitchen, and maybe a cat who knows more than he lets on.</p>
+        </div>
+        
+    </div>
+</body>
+</html>

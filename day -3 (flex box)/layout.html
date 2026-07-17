@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        h1{
+            border: 3px solid green;
+            text-align: center;
+        }
+        header nav{
+            border: 3px solid green;
+            text-align: center;
+        }
+        #container{
+            display:flex;
+            gap: 10px;
+            
+        }        
+         #container div{
+            display: flex;
+            padding: 50px;  
+            height: 200px;          
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            border: 3px solid green;
+            padding: 10px;
+            flex-basis: 100px;
+            
+            
+        }        
+        footer{
+            border: 3px solid green;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+<header>
+    <h1>Web</h1><br>
+        <nav>
+            
+            <a href="">About</a>
+            <a href="">Contact</a>
+        </nav><br>
+</header>
+    <main>
+        <div id="container">
+            <div> content</div>
+            <div style="flex:1">main content</div>
+            <div> content</div>
+        </div><br>
+    </main>
+    <footer>
+        <p>footer</p>
+    </footer>
+</body>
+</html>
