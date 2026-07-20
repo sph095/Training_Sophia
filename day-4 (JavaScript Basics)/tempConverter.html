@@ -1,0 +1,50 @@
+<!--converting celsius to fahrenheit and vice versa-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Temperature converter</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="heading">Temperature Converter</h1>
+        <div class="tempCon">
+            <label >Celsius: </label>
+            <input onchange= "computeTemp(event)"
+            type="number" 
+            name="celsius" 
+            id="celsius" 
+            class="input" 
+            placeholder="Enter temperature">
+        </div>
+        <div class="tempCon">
+            <label >Fahrenheit: </label>
+            <input onchange= "computeTemp(event)" 
+            type="number" 
+            name="fahrenheit" 
+            id="fahrenheit" 
+            class="input" 
+            placeholder="Enter temperature">
+
+        </div>
+        <div class="msgContainer">
+            <br>
+            <img id="waterImage" src="images\30celsius.PNG" width="100px">
+            <div class="msgc">
+                <p id="who"></p>
+                <p id="msg"></p>
+            </div>
+            
+        </div>
+        
+        
+
+
+
+    </div>
+    <script src="tempConverter.js"></script>
+    
+</body>
+</html>

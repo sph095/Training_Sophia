@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice JavaScript</title>
+</head>
+<body>
+    <h3>What can javascript do?</h3>
+    <p id="demo1">Change the text content?</p>
+    <button type="button" onclick="document.getElementById('demo1').innerHTML=`Yes, JavaScript can change text content`">click here</button>
+    <p id="demo2">Change the style of the html element?</p>
+    <button type="button" onclick="document.getElementById('demo2').style.fontSize='30px'">click here</button><br><br>
+    <p id="demo3">Hide the html elements?</p>
+    <button type="button" onclick="   let d=document.getElementById('demo3');
+        if(d.style.display==='block'){
+            d.style.display='none';
+            this.textContent='Unhide';
+        }else{
+            d.style.display='block';
+            this.textContent='Hide';
+        }">Hide </button> <br><br>
+    <script>
+        document.write("using script document.write " );
+        window.alert("practice javascript");
+    </script>    
+    
+
+</body>
+</html>
