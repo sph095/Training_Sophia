@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Grocery List</title>
+ <link rel="icon" href="images\blueCartIcon.png" type="image\png">
+ <style>
+    body{
+    background: linear-gradient(to left bottom, aqua, rgb(166, 166, 235));
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    box-shadow: 0 4px 10px rgb(0,0,0,0.3);
+    padding:30px;
+    border-radius: 10px;
+    background-color: rgb(255,255,255,0.3);
+    width: 85%;
+    min-width: 300px;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+}
+
+#clBtn{
+    padding: 6px;
+    color: aliceblue;
+    background-color: rgb(91, 91, 216);
+    border: 1px solid rgb(146, 182, 213);
+    outline:none;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight:600;
+}
+button{
+    color: aliceblue;
+    background-color: rgb(91, 91, 216);
+    border: 1px solid rgb(146, 182, 213);
+    outline:none;
+    border-radius: 20px;
+    font-size: 20px;
+}
+
+#addBtn{
+    padding: 6px;
+    color: aliceblue;
+    background-color: rgb(91, 91, 216);
+    border: 1px solid rgb(146, 182, 213);
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight:600;
+}
+#addBtn:hover{
+    background-color: rgb(80, 80, 177);
+}
+#addBtn:active{
+    background-color: rgb(146, 182, 213);
+}
+#title{
+    color: rgb(41, 41, 126);
+    text-align: center;
+    text-shadow: 0 0 20px rgb(5, 5, 240, 0.9);
+}
+#item{
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 20px;
+    outline: none;
+    border: 1px solid grey;
+}
+li{
+    font-size: 30px;
+    color: rgb(10, 73, 128);
+    gap:20px;
+    
+}
+ul{
+    margin-left: 50px;
+}
+
+ </style>
+</head>
+<body>
+ <div class="container">
+ <h1 id="title">Groceries Needed</h1>
+ <div class="entry">
+ <input type="text" id="item" placeholder="Enter an item..." />
+ <button id="addBtn">Add item</button>
+ </div>
+ <ul id="GList"></ul>
+ <button id="clBtn">Clear List</button>
+ <p>Items: <span id="count">0</span></p>
+ </div>
+ </div>
+
+ <script>
+    const addBtn = document.getElementById("addBtn");
+    const clBtn = document.getElementById("clBtn");
+    const item = document.getElementById("item");
+    const GList = document.getElementById("GList");
+
+    addBtn.addEventListener('click', function() {
+        const newItem = item.value.trim();
+        if (!newItem) return;
+
+        const items = GList.querySelectorAll('li');
+            for (let m of items) {
+            if (m.textContent.toLowerCase() === newItem.toLowerCase()) {
+                alert('Item already in the list!');
+                item.value = '';
+                item.focus();
+                return;
+        }
+    }
+
+    const li = document.createElement('li');
+    li.textContent = newItem;
+
+
+    const delBtn = document.createElement('button');
+    delBtn.textContent = 'Delete';
+    delBtn.style.marginLeft = '30px';
+    delBtn.addEventListener('click', function() {
+        li.remove();
+        item.focus();
+        updateCount();
+    });
+
+    li.appendChild(delBtn);
+    GList.appendChild(li);
+
+    item.value = "";
+    item.focus();
+    updateCount();
+});
+
+
+    clBtn.addEventListener('click', function() {
+        GList.innerHTML = '';
+        item.focus();
+        updateCount();
+    });
+ 
+    function updateCount() {
+        const items = GList.querySelectorAll('li');
+        document.getElementById("count").innerText = items.length;
+    }   
+
+ </script>
+</body>
+</html>
