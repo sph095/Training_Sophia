@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 150px;
+            padding: 40px;
+            gap:30px;
+        }
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="indiv">
+            <input type="number" id="num1" placeholder="Enter a number">
+            <input type="number" id="num2" placeholder="Enter a number">
+            <br><br><br>
+            <p id="demo"></p>
+            <br>
+        </div>
+    <div class="buttons">
+        <button id="addBtn">Add</button>
+        <button id="subtractBtn">Subtract</button>
+    </div>
+    </div>
+
+    
+    
+    <script type="module">
+        import { add } from './add.js';
+        const addBtn = document.getElementById("addBtn");
+        addBtn.addEventListener('click',function(){
+            const a = parseInt(document.getElementById("num1").value);
+            const b = parseInt(document.getElementById("num2").value);
+            let sum = add(a,b);
+            document.getElementById("demo").innerHTML = `The Sum of the numbers ${a} and ${b} is ${sum}`;
+        });
+
+        import { subtract } from './subtract.js';
+        const subtractBtn = document.getElementById("subtractBtn");
+        subtractBtn.addEventListener('click',function(){
+            const a = parseInt(document.getElementById("num1").value);
+            const b = parseInt(document.getElementById("num2").value);
+            let dif = subtract(a,b);
+            document.getElementById("demo").innerHTML = `The Difference of the numbers ${a} and ${b} is ${dif}`;
+        });
+
+
+    </script>
+</body>
+</html>

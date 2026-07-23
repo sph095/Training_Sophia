@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Counter</title>
+    <style>
+        button:active{
+            background-color: rgb(135, 132, 132);
+        }
+        body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>Local Storage Click Counter</h1>
+    <button type="button" onclick="clickCounterLOC()">Click me!</button>
+    <p>Number of clicks: <span id="demo1"></span></p>
+    <button type="button" onclick="clearCounterLOC()">Reset</button>
+    <p> Close the browser and open again.<br> The count will be the same, unless you reset it.</p>
+    <hr>
+    <h1>Sesion Storage Click Counter</h1>
+    <button type="button" onclick="clickCounterSES()">Click me!</button>
+    <p>Number of clicks: <span id="demo2"></span></p>
+    <button type="button" onclick="clearCounterSES()">Reset</button>
+    <p> Close the browser and open again.<br> The count will be reset.</p>
+    <script>
+    document.getElementById("demo1").innerHTML = localStorage.clickcount? localStorage.clickcount : 0;
+    document.getElementById("demo2").innerHTML = sessionStorage.clickcount? sessionStorage.clickcount : 0;
+    function clickCounterLOC() {
+        if(localStorage.clickcount){
+            localStorage.clickcount = Number(localStorage.clickcount) + 1;
+        }else{
+            localStorage.clickcount = 1;
+            }
+        document.getElementById("demo1").innerHTML = localStorage.clickcount;
+    }
+    function clearCounterLOC(){
+        localStorage.clickcount = 0;
+        document.getElementById("demo1").innerHTML = localStorage.clickcount;
+    }
+    function clickCounterSES(){
+        if(sessionStorage.clickcount){
+            sessionStorage.clickcount = Number(sessionStorage.clickcount) + 1;
+        }else{
+            sessionStorage.clickcount = 1;
+        }
+        document.getElementById("demo2").innerHTML = sessionStorage.clickcount;
+    }
+    function clearCounterSES(){
+        sessionStorage.clickcount = 0;
+        document.getElementById("demo2").innerHTML = sessionStorage.clickcount;
+    }
+    
+    </script>
+</body>
+</html>

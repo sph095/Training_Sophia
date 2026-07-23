@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>user entries</title>
+</head>
+<body>
+<h2>Manage user entries</h2>
+<input type="text" id="keyInput" placeholder="Enter key name">
+<input type="text" id="valueInput" placeholder="Enter value">
+<button onclick="saveToStorage()">Save</button>
+<button onclick="listAll()">List All</button>
+<button onclick="clearAll()">Clear All</button>
+
+<hr>
+<div id="output"></div>
+<script>
+    const output = document.getElementById("output");
+    function saveToStorage(){
+        const key = document.getElementById("keyInput").value.trim();
+        const value = document.getElementById("valueInput").value.trim();
+        if(!key){
+            output.innerHTML = "<p style='color:red;'> Please Enter a key.</p>"
+            return;
+        }
+        localStorage.setItem(key,value);
+        output.innerHTML= `Saved: ${key} → ${value}`;    
+        
+        document.getElementById("keyInput").value = '';
+        document.getElementById("valueInput").value = '';
+        
+    }
+    function listAll(){
+        if(localStorage.length === 0){
+            output.innerHTML = `Nothing Stored yet`;
+            return;
+        }
+        html = '<table border="1" cellpadding="6" style="border-collapse=collapse;">';
+        html += '<tr> <th>Key</th> <th>Value</th> <th>Action</th> </tr>';
+
+        for (let i=0; i<localStorage.length; i++){
+            const key = localStorage.key(i);
+            const value = localStorage.getItem(key);
+
+            html+= `<tr>
+                <td>${key}</td>
+                <td>${value}</td>
+                <td><button onclick="deleteKey('${key}')">Delete</button></td>
+                </tr>`;
+        }
+        html += '</table>'
+        output.innerHTML = html;
+    }
+    function deleteKey(key){
+        localStorage.removeItem(key);
+        listAll();
+    }
+    function clearAll(){
+        localStorage.clear();
+        output.innerHTML = "All items are Cleared.";
+    }
+</script>
+</body>
+</html>
