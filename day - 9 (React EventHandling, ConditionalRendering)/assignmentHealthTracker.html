@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Health Tracker</title>
+<link rel="icon" href="healthy favicon.png" type="images/png">
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+    padding:20px;
+}
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#menuBtn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1000;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Hidden */
+    width: 250px;
+    height: 100%;
+    background: #2c3e50;
+    transition: 0.3s;
+    padding-top: 60px;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+}
+
+.sidebar a:hover {
+    background: #34495e;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#profileDisplay {
+    text-align: left;
+    font-size: 14px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.1);
+}
+#quote{
+    box-shadow: 0 4px 10px rgb(0,0,0,0.3);
+    padding:30px;
+    border-radius: 10px;
+    background-color: rgb(255,255,255,0.3);
+    width: 85%;
+    min-width: 300px;
+    max-width: 450px;
+    
+    flex-direction: column;
+    padding: 200px;
+    
+}
+#quoteDiv{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}#quoteBtn{
+    font-size: 20px;
+    padding: 10px;
+}
+#tip{
+     font-size: 20px;
+}
+
+h1,h2{
+    text-align:center;
+}
+
+.section{
+    margin-bottom:25px;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+input,textarea{
+    width:100%;
+    padding:10px;
+    margin:6px 0;
+    box-sizing:border-box;
+}
+.progress-container{
+    width:100%;
+    height:25px;
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:10px;
+}
+
+.progress-bar{
+    width:0%;
+    height:100%;
+    background:#28a745;
+    color:white;
+    text-align:center;
+    line-height:25px;
+    font-weight:bold;
+    transition:width 1s ease;
+}
+
+button{
+    background:#28a745;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+button:hover{
+    background:#218838;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table,th,td{
+    border:1px solid #ddd;
+}
+
+th,td{
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:#28a745;
+    color:white;
+}
+
+.result{
+    background:#76c56a;
+    padding:10px;
+    margin-top:10px;
+    border-radius:5px;
+    text-align: center;
+}
+#msg{
+    position:fixed;
+    margin-bottom: 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<button id="menuBtn" onclick="toggleSidebar()">☰ Menu</button>
+
+<div id="sidebar" class="sidebar">
+    
+    
+    <a href="#goals">Goals</a>
+    <a href="#quote">Health Tip</a>
+    <a href="#recordEntry">Records</a>
+    <a href="#wProgress">Progress</a>
+    <a href="#Cprofile">Login</a>
+</div>
+
+<div class="header">
+    <h1>Health Tracker</h1>
+    <div id="profileDisplay" class="result"></div>
+</div>
+<div class="section" id="recordEntry">
+<h2>Daily Health Entries</h2><br>
+
+<input type="date" id="date">
+<input type="number" id="weight" placeholder="Weight (kg)">
+<input type="number" id="water" placeholder="Water Intake (L)">
+<textarea id="meals" placeholder="Meals"></textarea>
+<input type="text" id="workout" placeholder="Workout Details">
+<input type="number" id="sleep" placeholder="Sleep Duration (Hours)">
+<br><br><br><br>
+<button onclick="saveRecord()">Save Record</button>
+</div>
+
+
+<br><br>
+<div class="section" id="wProgress">
+<div>
+<h3>Today's Goal Progress</h3>
+<p>Water Goal</p>
+<div class="progress-container">
+    <div id="waterProgressBar" class="progress-bar">0%</div>
+</div>
+
+<p>Sleep Goal</p>
+
+<div class="progress-container">
+    <div id="sleepProgressBar" class="progress-bar">0%</div>
+</div>
+
+<p id="progressText"></p>
+</div>
+ <h2>Weekly Health Progress</h2>
+
+    <button onclick="showWeeklyProgress()">
+        Show Weekly Progress
+    </button>
+
+    <div id="weeklyProgress"></div>
+</div>
+
+<div class="section" >
+<h2>All Records</h2>
+<button id="allRecordToggle" onclick="toggleButton()">
+    Show all records
+</button>
+<div id="AllRecords">
+<table>
+<thead>
+<tr>
+<th>Date</th> <th>Weight</th> <th>Water</th> <th>Meals</th> <th>Workout</th> <th>Sleep</th>
+</tr>
+</thead>
+
+<!-- <button onClick="displayRecords()"></button> -->
+<tbody id="recordTable"></tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section">
+<h2>Search Previous Record</h2>
+
+<input type="date" id="searchDate">
+<button onclick="searchRecord()">Search</button>
+
+<div id="searchResult" class="result"></div>
+</div>
+
+
+<div class="section" id="Cprofile">
+<h2>Profile</h2>
+<div id="Pinputs">
+<input type="text" id="name" placeholder="Name">
+<input type="number" id="age" placeholder="Age">
+<input type="number" id="height" placeholder="Height (cm)">
+<input type="number" id="targetWeight" placeholder="Target Weight (kg)">
+<button onclick="saveProfile()" id="saveProfileBtn">Save Profile</button>
+</div>
+<button onclick="editProfile()" id="editProfileBtn" style="display: none;">
+    Edit Profile
+</button><br><br><br><br><br><br><br><br><br><p id="msg"></p>
+</div>
+<div class="section" id="goals">
+<h2> Set Daily Health Goals</h2>
+<div id="goalInputs">
+    <input type="number" id="goalWater" placeholder="Goal Water Intake (L)">
+    <input type="number" id="goalSleep" placeholder="Goal Sleep (Hours)">
+    <input type="number" id="goalWorkout" placeholder="Goal Workout (Minutes)">
+    <button onclick="saveGoals()">Save Goals</button>
+
+</div>
+
+<div id="goalDisplay" class="result"></div><br>
+<button onclick="showGoalInputs()" id="editGoalsBtn" style="display: none;">Edit Goals</button>
+<br><br>
+</div>
+
+<div id="quoteDiv">
+<div id="quote">
+    <button onclick="getHealthTip()" id="quoteBtn">Get a random advice</button>
+    <p id="tip"></p>
+</div></div>
+
+</div>
+
+<script>
+
+let profile = JSON.parse(localStorage.getItem("profile")) || {};
+
+let goals = JSON.parse(localStorage.getItem("goals")) || {};
+
+let records = JSON.parse(localStorage.getItem("records")) || [];
+
+
+displayProfile();
+displayGoals();
+
+
+document.addEventListener("click", function (event) {
+    const sidebar = document.getElementById("sidebar");
+    const menuBtn = document.getElementById("menuBtn");
+
+    if (
+        !sidebar.contains(event.target) &&
+        !menuBtn.contains(event.target)
+    ) {
+        sidebar.classList.remove("active");
+    }
+});
+function toggleSidebar() {
+    document
+        .getElementById("sidebar")
+        .classList
+        .toggle("active");
+}
+
+function saveProfile(){
+
+profile = {
+name: document.getElementById("name").value,
+age: document.getElementById("age").value,
+height: document.getElementById("height").value,
+targetWeight: document.getElementById("targetWeight").value
+};
+
+localStorage.setItem("profile",JSON.stringify(profile));
+
+displayProfile();
+Pinputs.style.display = "none";
+document.getElementById("saveProfileBtn").style.display = "none";
+document.getElementById("editProfileBtn").style.display = "block";
+}
+
+function editProfile(){
+    Pinputs.style.display = "block";
+    document.getElementById("editProfileBtn").style.display = "none";
+    document.getElementById("saveProfileBtn").style.display = "block";
+}
+function displayProfile(){
+
+document.getElementById("profileDisplay").innerHTML =
+`
+<b>Name:</b> ${profile.name || "-"}<br>
+<b>Age:</b> ${profile.age || "-"}<br>
+<b>Height:</b> ${profile.height || "-"} cm <br>
+<b>Target Weight:</b> ${profile.targetWeight || "-"} kg
+`;
+}
+
+function saveGoals(){
+
+goals = {
+water: document.getElementById("goalWater").value,
+sleep: document.getElementById("goalSleep").value,
+workout: document.getElementById("goalWorkout").value
+};
+
+localStorage.setItem(
+"goals",
+JSON.stringify(goals)
+);
+
+displayGoals();
+    document.getElementById(
+        "goalInputs"
+    ).style.display = "none";
+    document.getElementById(
+        "editGoalsBtn"
+    ).style.display = "block";
+
+}
+
+function displayGoals(){
+
+document.getElementById("goalDisplay").innerHTML =
+`
+<b>Water Goal:</b> ${goals.water || 0} L<br>
+<b>Sleep Goal:</b> ${goals.sleep || 0} Hours<br>
+<b>Workout Goal:</b> ${goals.workout || 0} Minutes
+`;
+}
+function checkGoalVisibility() {
+
+    const today =
+        new Date().toDateString();
+
+    const savedDate =
+        localStorage.getItem(
+            "goalDate"
+        );
+
+    if (savedDate === today) {
+
+        document.getElementById(
+            "goalInputs"
+        ).style.display = "none";
+
+    } else {
+
+        document.getElementById(
+            "goalInputs"
+        ).style.display = "block";
+    }
+}
+displayGoals();
+checkGoalVisibility();
+function showGoalInputs() {
+
+    const goals =
+        JSON.parse(
+            localStorage.getItem("goals")
+        );
+
+    if (goals) {
+        document.getElementById("goalWater").value =
+            goals.water || "";
+
+        document.getElementById("goalSleep").value =
+            goals.sleep || "";
+
+        document.getElementById("goalWorkout").value =
+            goals.workout || "";
+    }
+
+    document.getElementById("goalInputs").style.display = "block";
+    
+    document.getElementById("editGoalsBtn").style.display = "none";
+    
+}
+
+function saveRecord(){
+
+const record = {
+date: document.getElementById("date").value,
+weight: document.getElementById("weight").value,
+water: document.getElementById("water").value,
+meals: document.getElementById("meals").value,
+workout: document.getElementById("workout").value,
+sleep: document.getElementById("sleep").value
+};
+
+if(
+!record.date ||
+!record.weight ||
+!record.water ||
+!record.meals ||
+!record.workout ||
+!record.sleep
+){
+alert("Please fill all fields");
+return;
+}
+
+records.push(record);
+
+localStorage.setItem(
+"records",
+JSON.stringify(records)
+);
+
+displayRecords();
+updateProgressBars();
+
+alert("Record Saved!");
+
+document.getElementById("weight").value="";
+document.getElementById("water").value="";
+document.getElementById("meals").value="";
+document.getElementById("workout").value="";
+document.getElementById("sleep").value="";
+}
+
+let isOn = false;
+
+function toggleButton() {
+
+    isOn = !isOn;
+    const recordsDiv= document.getElementById("AllRecords");
+    const btn = document.getElementById("allRecordToggle");
+     if (!isOn) {
+        recordsDiv.style.display = "block";
+        displayRecords();
+        btn.textContent = "Hide all records";
+    } else {
+        recordsDiv.style.display = "none";
+       
+        btn.textContent = "Show all records";
+    }    
+}
+
+function displayRecords(){
+
+const table =
+document.getElementById("recordTable");
+
+table.innerHTML="";
+
+records.forEach(r=>{
+
+table.innerHTML += `
+<tr>
+<td>${r.date}</td>
+<td>${r.weight}</td>
+<td>${r.water}</td>
+<td>${r.meals}</td>
+<td>${r.workout}</td>
+<td>${r.sleep}</td>
+</tr>
+`;
+});
+}
+
+function searchRecord(){
+
+const date =
+document.getElementById("searchDate").value;
+
+const result =
+records.find(r=>r.date===date);
+
+const box =
+document.getElementById("searchResult");
+
+if(result){
+
+box.innerHTML = `
+<b>Date:</b> ${result.date}<br>
+<b>Weight:</b> ${result.weight} kg<br>
+<b>Water:</b> ${result.water} L<br>
+<b>Meals:</b> ${result.meals}<br>
+<b>Workout:</b> ${result.workout}<br>
+<b>Sleep:</b> ${result.sleep} hrs
+`;
+
+}else{
+
+box.innerHTML =
+"No record found.";
+}
+}
+
+function showWeeklyProgress(){
+
+const last7 =
+records.slice(-7);
+
+if(last7.length===0){
+
+document.getElementById(
+"weeklyReport"
+).innerHTML =
+"No records available.";
+
+return;
+}
+
+let avgWater =
+last7.reduce(
+(sum,r)=>sum+Number(r.water),
+0
+)/last7.length;
+
+let avgWeight =
+last7.reduce(
+(sum,r)=>sum+Number(r.weight),
+0
+)/last7.length;
+
+let avgSleep =
+last7.reduce(
+(sum,r)=>sum+Number(r.sleep),
+0
+)/last7.length;
+
+document.getElementById(
+"weeklyReport"
+).innerHTML =
+`
+<b>Average Water Intake:</b>
+${avgWater.toFixed(2)} L<br>
+
+<b>Average Weight:</b>
+${avgWeight.toFixed(2)} kg<br>
+
+<b>Average Sleep:</b>
+${avgSleep.toFixed(2)} hrs<br>
+
+<b>Total Records:</b>
+${last7.length}
+`;
+}
+
+async function getHealthTip() {
+    document.getElementById("tip").innerText =`Loading, wait a sec.....`;
+    const response =
+    await fetch(
+      "https://api.adviceslip.com/advice"
+    );
+
+    const data =
+    await response.json();
+
+    document.getElementById(
+        "tip"
+    ).innerText =
+    data.slip.advice;
+}
+
+
+
+function updateProgressBars() {
+
+    if(records.length === 0) return;
+
+    const latestRecord =
+        records[records.length - 1];
+
+    // Water Progress
+    let waterGoal =
+        Number(goals.water) || 1;
+
+    let waterProgress =
+        Math.min(
+            (Number(latestRecord.water) / waterGoal) * 100,
+            100
+        );
+
+    document.getElementById(
+        "waterProgressBar"
+    ).style.width = waterProgress + "%";
+
+    document.getElementById(
+        "waterProgressBar"
+    ).textContent =
+        Math.round(waterProgress) + "%";
+
+    // Sleep Progress
+    let sleepGoal =
+        Number(goals.sleep) || 1;
+
+    let sleepProgress =
+        Math.min(
+            (Number(latestRecord.sleep) / sleepGoal) * 100,
+            100
+        );
+
+    document.getElementById(
+        "sleepProgressBar"
+    ).style.width = sleepProgress + "%";
+
+    document.getElementById(
+        "sleepProgressBar"
+    ).textContent =
+        Math.round(sleepProgress) + "%";
+
+}
+
+
+
+function showWeeklyProgress() {
+
+    const progressDiv =
+        document.getElementById(
+            "weeklyProgress"
+        );
+
+    if (records.length === 0) {
+        progressDiv.innerHTML =
+            "No records available.";
+        return;
+    }
+
+    const last7 =
+        records.slice(-7);
+
+    const avgWater =
+        last7.reduce(
+            (sum, r) =>
+                sum + Number(r.water),
+            0
+        ) / last7.length;
+
+    const avgSleep =
+        last7.reduce(
+            (sum, r) =>
+                sum + Number(r.sleep),
+            0
+        ) / last7.length;
+
+    const workoutDays =
+        last7.filter(
+            r => r.workout.trim() !== ""
+        ).length;
+
+    const latestWeight =
+        last7[last7.length - 1].weight;
+
+    const waterGoal =
+        Number(goals.water) || 0;
+
+    const sleepGoal =
+        Number(goals.sleep) || 0;
+
+    const waterProgress =
+        waterGoal
+            ? ((avgWater / waterGoal) * 100)
+                  .toFixed(1)
+            : "N/A";
+
+    const sleepProgress =
+        sleepGoal
+            ? ((avgSleep / sleepGoal) * 100)
+                  .toFixed(1)
+            : "N/A";
+
+    progressDiv.innerHTML = `
+        <h3>Last 7 Days Summary</h3>
+
+        <p>
+            <b>Average Water Intake:</b>
+            ${avgWater.toFixed(2)} L
+        </p>
+
+        <p>
+            <b>Average Sleep:</b>
+            ${avgSleep.toFixed(2)} hrs
+        </p>
+
+        <p>
+            <b>Workout Days:</b>
+            ${workoutDays} / ${last7.length}
+        </p>
+
+        <p>
+            <b>Latest Weight:</b>
+            ${latestWeight} kg
+        </p>
+
+        <p>
+            <b>Water Goal Achievement:</b>
+            ${waterProgress}%
+        </p>
+
+        <p>
+            <b>Sleep Goal Achievement:</b>
+            ${sleepProgress}%
+        </p>
+    `;
+}
+updateProgressBars();
+</script>
+
+</body>
+</html>
