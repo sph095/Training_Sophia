@@ -1,0 +1,23 @@
+input{
+    max-width: 150px;
+}
+#container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.button{
+    padding: 0px 20px;
+    font-size: 15x;
+}
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+hr{
+    border: 3px solid black;
+    min-width: 100%;
+}
