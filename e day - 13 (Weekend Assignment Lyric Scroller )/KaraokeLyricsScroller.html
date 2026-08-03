@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Karaoke Lyrics Scroller</title>
+ <style>
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body {
+ font-family: system-ui, -apple-system, sans-serif;
+ background: #111;
+ color: #eee;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ min-height: 100vh;
+ padding: 2rem 1rem;
+ }
+ h1 { margin-bottom: 1rem; font-size: 1.5rem; }
+  dialog {
+  border: none;
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 450px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  font-size: 1rem;
+  text-align: center;
+  background: #1a1a1a;
+  color: #eee;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+} 
+dialog input, dialog textarea {
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  background: #111;
+  border: 1px solid #333;
+  color: #eee;
+  border-radius: 6px;
+  font-family: inherit;
+}
+dialog textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: monospace;
+  font-size: 0.85rem;
+  text-align: left;
+}
+dialog label {
+  display: block;
+  text-align: left;
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 4px;
+}
+dialog .modal-hint {
+  font-size: 0.7rem;
+  color: #666;
+  text-align: left;
+  margin-top: -6px;
+  margin-bottom: 12px;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+ #song-list {
+ width: 100%;
+ max-width: 500px;
+ }
+ #song-list h2 {
+ margin-bottom: 1rem;
+ font-size: 1.2rem;
+ color: #888;
+ }
+.song-card {
+ background: #1a1a1a;
+ border-radius: 10px;
+ padding: 1rem 1.5rem;
+ margin-bottom: 0.75rem;
+ cursor: pointer;
+ transition: background 0.2s;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ }
+.song-card:hover {
+ background: #2a2a2a;
+ }
+.song-card .title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.song-card .artist {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0.2rem;
+}
+
+.song-card .arrow {
+  color: #1db954;
+  font-size: 1.3rem;
+}
+
+.section-head {
+  margin-top: 1rem;
+}
+
+ #player-view {
+ width: 100%;
+ max-width: 500px;
+ display: none;
+ }
+ #back-btn {
+ background: transparent;
+ color: #1db954;
+ border: 1px solid #1db954;
+ padding: 0.4rem 1rem;
+ border-radius: 6px;
+ cursor: pointer;
+ font-size: 0.9rem;
+ margin-bottom: 1rem;
+ }
+ #back-btn:hover {
+ background: #1db95422;
+ }
+ #controls {
+ display: flex;
+ gap:30px;
+ margin-bottom: 1.5rem;
+ align-items: center;
+ flex-wrap: wrap;
+ float:right;
+ }
+ button{
+ background: #1db954;
+ color: #000;
+ border: none;
+ padding: 0.5rem 1.2rem;
+ border-radius: 6px;
+ font-weight: 600;
+ cursor: pointer;
+ font-size: 1rem;
+ }
+ button:hover {
+ background: #1ed760;
+ }
+ #time-display {
+ font-family: monospace;
+ font-size: 1rem;
+ color: #aaa;
+ }
+ #progress {
+ width: 100%;
+ accent-color: #1db954;
+ margin-bottom: 1.5rem;
+ }
+ #lyrics-container {
+ background: #1a1a1a;
+ border-radius: 10px;
+ padding: 1.5rem;
+ max-height: 60vh;
+ overflow-y: auto;
+ line-height: 1.8;
+ }
+.line {
+ padding: 0.3rem 0.5rem;
+ border-radius: 4px;
+ transition: background 0.15s, color 0.15s;
+ cursor: pointer;
+ color: #666;
+ }
+.line.active {
+ background: #1db95422;
+ color: #fff;
+ font-weight: 600;
+ }
+ #now-playing {
+ margin-bottom: 0.5rem;
+ font-size: 0.9rem;
+ color: #888;
+ }
+ #now-playing span {
+ color: #1db954;
+ }
+ /*  */
+ #song-list.sidebar-mode {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 260px;
+ height: 100vh;
+ background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+ color: #e0e0e0;
+ padding: 24px 16px;
+ box-shadow: 4px 0 20px rgba(0, 0, 0, 0.4);
+ overflow-y: auto;
+ z-index: 1000;
+ font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+ display: flex;
+ flex-direction: column;
+}
+/* for mobile screen  */
+@media screen and (max-width: 768px) {
+  .main-container {
+    flex-direction: column; 
+  }
+  #song-list.sidebar-mode {
+    display: none; 
+  }
+}
+@media (min-width: 1024px) {
+  #song-list {
+    transform: scale(1.5); 
+    transform-origin: top center; 
+    /* width: 66.66%; 100% divided by 1.2 */
+    width:100%;
+    margin: 0 auto;
+  }
+  #song-list.sidebar-mode {
+    transform: scale(1); 
+    margin: 0 auto; 
+  }
+}
+
+ </style>
+</head>
+<body>
+<div id="main-container">
+ <div id="song-list">
+    <h1><i data-lucide="music"></i>  Choose a Song</h1>
+    <div id="songs-container"></div>
+    <div class="section-head">
+      <button id="newSongBtn" > + New song </button>
+      <div id="dia">
+      <dialog id="myModal">
+        <label for="sTitle">Song Title</label>
+        <input type="text" id="sTitle"/>
+        <label for="aName">Artist</label>
+        <input type="text" id="aName"/>
+        <label for="lyrics">Lyrics</label>
+        <textarea id="lyrics" placeholder="One lyric line per row.&#10;Optionally start a line with m:ss to set its timing, e.g.:&#10;0:00 (intro)&#10;0:07 First line&#10;Next line (auto-timed ~4s later if no timestamp)"></textarea>
+        <div class="modal-hint">Tip: prefix a line with m:ss to sync it exactly. Untimed lines are spaced 4s apart.</div>
+        <button id="closeBtn" style="float:left">Close</button>
+        <button id="savecloseBtn" style="float:right" onclick="saveSong()">Save</button>
+    </dialog>
+    </div>
+
+    </div>
+ </div>
+
+ <div id="player-view">
+    <button id="back-btn">← Back to songs</button>
+    <div id="now-playing">Now playing: <span id="song-title-display"></span></div>
+    <div id="song-ended-msg" style="display:none; color:#1db954; font-weight:600; margin-bottom:0.5rem;">
+  🎵 Song ended
+</div>
+    <div id="controls">
+        <button id="play-btn">▶ Play</button>
+        <span id="time-display">0:00</span>
+        <!-- <button id='restartBtn'><i data-lucide="rotate-ccw"></i></button> -->
+    </div>
+    <input type="range" id="progress" min="0" max="1" step="0.001" value="0"/>
+    <div id="lyrics-container"></div>
+ </div>
+</div>
+ <script src="https://unpkg.com/lucide@latest"></script>
+ <script>
+    lucide.createIcons();
+ const songs = [{
+ id: 'cardigan',
+ title: 'cardigan',
+ artist: 'Taylor Swift',
+ lyrics: [{ time: 0, text: "♪ (intro)" },
+ { time: 7, text: "Vintage tee, brand new phone" },
+ { time: 10, text: "High heels on cobblestones" },
+ { time: 13, text: "When you are young, they assume you know nothing" },
+ { time: 16, text: "Sequin smile, black lipstick" },
+ { time: 19, text: "Sensual politics" },
+ { time: 22, text: "When you are young, they assume you know nothing" },
+ { time: 25, text: "But I knew you" },
+ { time: 28, text: "Dancin' in your Levi's" },
+ { time: 31, text: "Drunk under a streetlight, I" },
+ { time: 34, text: "I knew you" },
+ { time: 37, text: "Hand under my sweatshirt" },
+ { time: 40, text: "Baby, kiss it better, I" },
+ { time: 44, text: "And when I felt like I was an old cardigan" },
+ { time: 47, text: "Under someone's bed" },
+ { time: 50, text: "You put me on and said I was your favorite" },
+ { time: 56, text: "A friend to all is a friend to none" },
+ { time: 59, text: "Chase two girls, lose the one" },
+ { time: 62, text: "When you are young, they assume you know nothin'" },
+ { time: 65, text: "But I knew you" },
+ { time: 68, text: "Playing hide-and-seek and" },
+ { time: 71, text: "Giving me your weekends, I" },
+ { time: 74, text: "I knew you" },
+ { time: 77, text: "Your heartbeat on the High Line" },
+ { time: 80, text: "Once in 20 lifetimes, I" },
+ { time: 84, text: "And when I felt like I was an old cardigan" },
+ { time: 87, text: "Under someone's bed" },
+ { time: 90, text: "You put me on and said I was your favorite" },
+ { time: 96, text: "To kiss in cars and downtown bars" },
+ { time: 99, text: "Was all we needed" },
+ { time: 102, text: "You drew stars around my scars" },
+ { time: 105, text: "But now I'm bleedin'" },
+ { time: 108, text: "'Cause I knew you" },
+ { time: 111, text: "Steppin' on the last train" },
+ { time: 114, text: "Marked me like a bloodstain, I" },
+ { time: 117, text: "I knew you" },
+ { time: 120, text: "Tried to change the ending" },
+ { time: 123, text: "Peter losing Wendy, I" },
+ { time: 126, text: "I knew you" },
+ { time: 129, text: "Leavin' like a father" },
+ { time: 132, text: "Running like water, I" },
+ { time: 136, text: "And when you are young, they assume you know nothing" },
+ { time: 140, text: "But I knew you'd linger like a tattoo kiss" },
+ { time: 144, text: "I knew you'd haunt all of my what-ifs" },
+ { time: 148, text: "The smell of smoke would hang around this long" },
+ { time: 152, text: "'Cause I knew everything when I was young" },
+ { time: 156, text: "I knew I'd curse you for the longest time" },
+ { time: 160, text: "Chasin' shadows in the grocery line" },
+ { time: 164, text: "I knew you'd miss me once the thrill expired" },
+ { time: 168, text: "And you'd be standin' in my front porch light" },
+ { time: 173, text: "And I knew you'd come back to me" },
+ { time: 177, text: "You'd come back to me" },
+ { time: 181, text: "And you'd come back to me" },
+ { time: 185, text: "And you'd come back" },
+ { time: 190, text: "And when I felt like I was an old cardigan" },
+ { time: 193, text: "Under someone's bed" },
+ { time: 196, text: "You put me on and said I was your favorite" }
+
+]},
+  {
+ id: 'I Thought I Saw Your Face Today',
+ title: 'I Thought I Saw Your Face Today',
+ artist: 'She & Him',
+ lyrics: [{ time: 0, text: "♪ (intro)" },
+ { time: 10, text: "I thought I saw your face today" },
+ { time: 14, text: "But I just turned my head away" },
+ { time: 18, text: "Your face against the trees" },
+ { time: 22, text: "But I just see the memories as they come" },
+ { time: 27, text: "As they come" },
+ { time: 32, text: "And I couldn't help but fall in love again" },
+ { time: 40, text: "No, I couldn't help but fall in love again" },
+ { time: 49, text: "I saw it glitter as I grew" },
+ { time: 53, text: "And loved it, boy, I never knew" },
+ { time: 57, text: "I thought this place was heaven sent" },
+ { time: 61, text: "But now it's just a monument in my mind" },
+ { time: 66, text: "In my mind" },
+ { time: 71, text: "And I couldn't help but fall in love again" },
+ { time: 79, text: "No, I couldn't help but fall in love again" },
+ { time: 89, text: "The cars and freeways implore me to stay" },
+ { time: 93, text: "Away, out of this place" },
+ { time: 97, text: "My mother said, \"Just keep your head" },
+ { time: 101, text: "And play it as it lays\"" },
+ { time: 105, text: "The cars and freeways implore me to stay" },
+ { time: 109, text: "Away, out of this place" },
+ { time: 113, text: "My mother said, \"Just keep your head" },
+ { time: 117, text: "And play it as it lays\"" },
+ { time: 123, text: "I somehow see what's beautiful" },
+ { time: 127, text: "In things that are ephemeral" },
+ { time: 131, text: "I'm my only friend of mine" },
+ { time: 135, text: "And love is just a piece of time in the world" },
+ { time: 140, text: "In the world" },
+ { time: 145, text: "And I couldn't help but fall in love again" },
+ { time: 153, text: "No, I couldn't help but fall in love again" },
+ { time: 161, text: "No, I couldn't help but fall in love again" },
+ { time: 169, text: "No, I couldn't help but fall in love again" },
+ { time: 177, text: "No, I couldn't help" }
+
+]},
+ {
+ id: 'sienna',
+ title: 'Sienna',
+ artist: 'The Marías',
+ lyrics: [{ time: 0, text: "♪ (intro)" },
+ { time: 8, text: "Please tell me not to go" },
+ { time: 12, text: "We've been here long before" },
+ { time: 16, text: "I live under your eyelids" },
+ { time: 20, text: "I'll always be yours" },
+ { time: 24, text: "I'll lay on your rooftop in the freezing cold" },
+ { time: 28, text: "And I'll watch the sunset wearing all your clothes" },
+ { time: 32, text: "I can feel you with me like I did before" },
+ { time: 36, text: "Like when I sang you a love song by Norah Jones" },
+ { time: 42, text: "Ooh, Sienna" },
+ { time: 46, text: "Would've been cute" },
+ { time: 50, text: "Ooh, Sienna" },
+ { time: 54, text: "Would look just like you" },
+ { time: 60, text: "I came clean" },
+ { time: 64, text: "And it feels so good" },
+ { time: 68, text: "If I feel seen, mm" },
+ { time: 72, text: "Only through you" },
+ { time: 76, text: "I'll wait here tomorrow, outside your door" },
+ { time: 80, text: "Like I did in December, when you held me close" },
+ { time: 84, text: "Coming up on your corner, pulling out my hair" },
+ { time: 88, text: "Hear the creak in the floorboards going up the stairs" },
+ { time: 94, text: "Ooh, Sienna" },
+ { time: 98, text: "Would've been cute" },
+ { time: 102, text: "Ooh, Sienna" },
+ { time: 106, text: "Would look just like you" },
+ { time: 112, text: "With a temper like you, run around like you" },
+ { time: 116, text: "Jumping in the pool, like you" },
+ { time: 120, text: "Sing to all her pets in the way I did" },
+ { time: 124, text: "Be sensitive like you" },
+ { time: 128, text: "And I smile when I think of all the times we had" },
+ { time: 132, text: "On the beach in the winter, when the waves were mad" },
+ { time: 136, text: "Down by the water, crystal clear" },
+ { time: 140, text: "See her face in the forest, then it disappears" }
+
+]}
+
+ ];
+const songEndedMsg = document.getElementById('song-ended-msg');
+ const CUSTOM_SONGS_KEY = 'lyricsScrollerCustomSongs';
+
+ function loadCustomSongs() {
+ try {
+ const raw = localStorage.getItem(CUSTOM_SONGS_KEY);
+ if (!raw) return [];
+ const parsed = JSON.parse(raw);
+ return Array.isArray(parsed) ? parsed : [];
+ } catch (e) {
+ console.error('Failed to load custom songs from storage:', e);
+ return [];
+ }
+ }
+
+ function saveCustomSongs(list) {
+ try {
+ localStorage.setItem(CUSTOM_SONGS_KEY, JSON.stringify(list));
+ } catch (e) {
+ console.error('Failed to save custom songs to storage:', e);
+ alert('Could not save the song to local storage (it will still work for this session).');
+ }
+ }
+ function parseLyricsInput(raw) {
+ const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+ const timePattern = /^(\d+):([0-5]?\d)\s+(.+)$|^(\d+(?:\.\d+)?)\s+(.+)$/;
+ const result = [];
+ let lastTime = -4;
+ lines.forEach(line => {
+ const match = line.match(timePattern);
+ let time, text;
+ if (match) {
+ if (match[1] !== undefined) {
+ time = parseInt(match[1], 10) * 60 + parseInt(match[2], 10);
+ text = match[3];
+ } else {
+ time = parseFloat(match[4]);
+ text = match[5];
+ }
+ } else {
+ time = lastTime + 4;
+ text = line;
+ }
+ lastTime = time;
+ result.push({ time, text });
+ });
+ return result;
+ }
+
+ function escapeHtml(str) {
+ const div = document.createElement('div');
+ div.textContent = str;
+ return div.innerHTML;
+ }
+
+ let currentSong = null;
+ let currentLineIndex = 0;
+ let isPlaying = false;
+ let timer = null;
+ let startTime = 0;
+ let elapsed = 0;
+
+ const songsContainer = document.getElementById('songs-container');
+ const songListView = document.getElementById('song-list');
+ const playerView = document.getElementById('player-view');
+ const lyricsContainer = document.getElementById('lyrics-container');
+ const songTitleDisplay = document.getElementById('song-title-display');
+ const playBtn = document.getElementById('play-btn');
+ const timeDisplay = document.getElementById('time-display');
+ const progressBar = document.getElementById('progress');
+ const backBtn = document.getElementById('back-btn');
+
+const modal = document.getElementById('myModal');
+  const openButton = document.getElementById('newSongBtn');
+  const closeButton = document.getElementById('closeBtn');
+
+  openButton.addEventListener('click', () => {
+    document.getElementById("sTitle").value = "";
+    document.getElementById("aName").value = "";
+    document.getElementById("lyrics").value = "";
+    modal.showModal(); 
+  });
+
+  closeButton.addEventListener('click', () => {
+    modal.close();
+  });
+
+  function saveSong() {
+    const title = document.getElementById("sTitle").value.trim();
+    const artist = document.getElementById("aName").value.trim();
+    const lyricsRaw = document.getElementById("lyrics").value;
+
+    if (!title || !lyricsRaw.trim()) {
+      alert("Please enter at least a title and some lyrics.");
+      return;
+    }
+
+    const lyrics = parseLyricsInput(lyricsRaw);
+    if (lyrics.length === 0) {
+      alert("Could not read any lyric lines — please add at least one line.");
+      return;
+    }
+
+    const song = {
+      id: 'custom-' + Date.now(),
+      title,
+      artist: artist || 'Unknown Artist',
+      lyrics
+    };
+
+    songs.push(song);
+
+    const customSongs = loadCustomSongs();
+    customSongs.push(song);
+    saveCustomSongs(customSongs);
+
+    appendSongCard(song);
+
+    modal.close();
+  }
+ function renderSongList() {
+ songsContainer.innerHTML = '';
+ songs.forEach(song => {
+ songsContainer.appendChild(buildSongCard(song));
+ });
+ }
+
+ function buildSongCard(song) {
+ const card = document.createElement('div');
+ card.className = 'song-card';
+ card.innerHTML = `
+ <div>
+ <div class="title">${escapeHtml(song.title)}</div>
+ <div class="artist">${escapeHtml(song.artist)}</div>
+ </div>
+ <div class="arrow">→</div>
+ `;
+ card.addEventListener('click', () => selectSong(song));
+ return card;
+ }
+
+ function appendSongCard(song) {
+ songsContainer.appendChild(buildSongCard(song));
+ }
+
+ function selectSong(song) {
+songListView.classList.add('sidebar-mode');
+ if (timer) {
+ clearInterval(timer);
+ timer = null;
+ }
+ isPlaying = false;
+ playBtn.textContent = '▶ Play';
+ elapsed = 0;
+ currentLineIndex = 0;
+ currentSong = song;
+
+ progressBar.value = 0;
+timeDisplay.textContent = "0:00";
+
+ playerView.style.display = 'block';
+ songTitleDisplay.textContent = `${song.title} — ${song.artist}`;
+if (songEndedMsg) songEndedMsg.style.display = 'none';
+ renderLyrics();
+ updateProgress();
+ }
+
+ function renderLyrics() {
+ lyricsContainer.innerHTML = '';
+ if (!currentSong || !Array.isArray(currentSong.lyrics)) return;
+ currentSong.lyrics.forEach((line, index) => {
+ const div = document.createElement('div');
+ div.className = 'line';
+ if (index === currentLineIndex) div.classList.add('active');
+ div.textContent = line.text;
+ div.dataset.index = index;
+ div.addEventListener('click', () => {
+ elapsed = line.time;
+ currentLineIndex = index;
+ updateProgress();
+ renderLyrics();
+ });
+ lyricsContainer.appendChild(div);
+ });
+ const active = lyricsContainer.querySelector('.active');
+ if (active) {
+ active.scrollIntoView({ behavior: 'smooth', block: 'center' });
+ }
+ }
+
+playBtn.addEventListener('click', () => {
+  if (!currentSong) return;
+  if (isPlaying) {
+    clearInterval(timer);
+    timer = null;
+    isPlaying = false;
+    playBtn.textContent = '▶ Play';
+  } else {
+    startTime = Date.now() - elapsed * 1000;
+    isPlaying = true;
+    playBtn.textContent = '⏸ Pause';
+    timer = setInterval(tick, 100);
+    if (songEndedMsg) songEndedMsg.style.display = 'none';
+  }
+});
+ function tick() {
+ elapsed = (Date.now() - startTime) / 1000;
+ updateProgress();
+
+ const lyrics = currentSong.lyrics;
+ let newIndex = 0;
+ for (let i = lyrics.length - 1; i >= 0; i--) {
+ if (elapsed >= lyrics[i].time) {
+ newIndex = i;
+ break;
+ }
+ }
+ if (newIndex!== currentLineIndex) {
+ currentLineIndex = newIndex;
+ renderLyrics();
+ }
+
+ const lastLine = lyrics[lyrics.length - 1];
+ if (elapsed >= lastLine.time) {
+  elapsed = lastLine.time;
+  updateProgress();
+
+  clearInterval(timer);
+  timer = null;
+  isPlaying = false;
+  playBtn.textContent = "▶ Play";
+
+  if (songEndedMsg) {
+    songEndedMsg.style.display = 'block';
+  } else {
+    console.warn('song-ended-msg element not found in the DOM');
+  }
+}
+}
+
+ 
+ 
+
+ function updateProgress() {
+ if (!currentSong) return;
+ const lyrics = currentSong.lyrics;
+ const lastTime = lyrics[lyrics.length - 1].time;
+ const progress = Math.min(elapsed / lastTime, 1);
+ progressBar.value = progress;
+
+ const mins = Math.floor(elapsed / 60);
+ const secs = Math.floor(elapsed % 60);
+ timeDisplay.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+ }
+
+ progressBar.addEventListener('input', () => {
+ if (!currentSong) return;
+ const lyrics = currentSong.lyrics;
+ const lastTime = lyrics[lyrics.length - 1].time;
+elapsed = Number(progressBar.value) * lastTime;
+ if (isPlaying) {
+ startTime = Date.now() - elapsed * 1000;
+ }
+ let newIndex = 0;
+ for (let i = lyrics.length - 1; i >= 0; i--) {
+ if (elapsed >= lyrics [i].time) {
+ newIndex = i;
+ break;
+ }
+ }
+ currentLineIndex = newIndex;
+ renderLyrics();
+ updateProgress();
+ });
+
+
+ backBtn.addEventListener('click', () => {
+ if (timer) {
+ clearInterval(timer);
+ timer = null;
+ }
+ isPlaying = false;
+ playBtn.textContent = '▶ Play';
+ playerView.style.display = 'none';
+ songListView.style.display = 'block';
+songListView.classList.remove('sidebar-mode');
+
+ });
+
+ songs.push(...loadCustomSongs());
+ renderSongList();
+ </script>
+</body>
+</html>
