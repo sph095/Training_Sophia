@@ -1,0 +1,25 @@
+
+npm run db:sync && npm run db:seed
+
+
+////
+
+mkdir parking-system
+cd parking-system
+
+mkdir client; mkdir server
+
+cd server
+npm init -y
+npm i fastify @fastify/jwt @fastify/cors sequelize pg pg-hstore dotenv
+
+mkdir src
+New-Item src/index.js
+New-Item -Path.env -ItemType File
+
+
+//cd to the ogFile by cuting and opening
+npm create vite@latest -- --template react-ts
+
+client
+

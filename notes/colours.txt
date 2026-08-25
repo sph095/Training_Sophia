@@ -1,0 +1,13 @@
+dark pink bg :  #f06365
+
+blue maybe btn:  #92cce3
+
+beige :  #f4d89e
+
+light pink for container bg :   #f49da2
+
+even lighter pink :  #f7c4c8
+
+green:  #819f61
+
+dark pink text:  #a32f2f

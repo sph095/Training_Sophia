@@ -1,0 +1,132 @@
+→
+
+netstat -ano | findstr :4000
+
+taskkill /PID <thatnum> /F
+
+
+
+cmd         code .
+
+
+npm create vite@latest my-app              ///create vite app
+
+npm run dev
+npm run dev -- --port 5174    ///vite use specific port
+
+
+--> REACT
+
+newfolder -> code .
+
+npm install -g pnpm     				     //pnpm installed
+pnpm create react-app my-ts-app --template typescript        //app files created
+cd mytsapp
+npm start
+
+
+//git commands
+
+git --version
+https://git-scm.com/install/
+git-scm.com download
+ 
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+ 
+git init  
+git clone <url>   # download an existing repo from GitHub, etc.
+ 
+git status                    # see what's changed
+git add filename.txt          # stage a specific file
+git add .                      # stage everything changed
+ 
+git checkout -b user/task1
+git commit -m "describe what you did"   # save a snapshot
+git push -u origin user/task1
+
+
+
+
+/////
+w3schools
+
+
+
+GIT
+
+
+$ git remote add origin https://github.com/sph095/Training_Sophia.git
+
+$ git add index.html
+
+
+
+//filename.txt
+ git add index.html    
+
+$ git commit -m "pushing code to git"
+//git uncommit
+$ git checkout -b sophia/task1
+$ git push origin sophia/task1
+
+$ git remote add origin https://github.com/sph095/Training_Sophia.git
+
+
+
+
+git commands from google
+
+->bash
+git init
+
+git add .
+
+git commit -m "Initial commit"
+
+git branch -M main
+
+git remote add origin https://github.com
+
+git push -u origin main
+
+
+for everyday updates
+
+git add .
+
+git commit -m "Describe what you changed"
+
+git push
+
+
+
+advanced push commands
+
+git push origin branch-name
+
+git push --force-with-lease
+
+git push --all origin
+
+
+--node mailer
+mkdir mail-sender && cd mail-sender
+npm init -y
+npm install nodemailer
+
+
+
+
+
+
+tailwind confifg
+/** @type {import('tailwindcss').Config} */
+
+index.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+using System.Reflection.Metadata;  doc error

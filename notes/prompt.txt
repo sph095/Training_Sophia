@@ -1,0 +1,64 @@
+i made some changes, i need the changes to be consistent in all pages
+
+<h1 className="text-2xl font-bold mb-1">Slot Availability</h1>
+      <p className="text-gray-500 mb-6">Green = available, Blue = occupied, Yellow = reserved</p>
+
+const statusColors = {
+  available: 'bg-green-100 border-green-400 text-green-700',
+  occupied: 'bg-blue-100 border-blue-400 text-blue-700',
+  reserved: 'bg-yellow-100 border-yellow-400 text-yellow-700'
+};
+
+colors you could refer
+
+dark pink bg :  #f06365
+
+blue maybe btn:  #92cce3
+
+beige :  #f4d89e
+
+light pink for container bg :   #f49da2
+
+make the nav bar consistent, and buttons coherent
+
+even lighter pink :  #f7c4c8
+
+green:  #819f61
+
+dark pink text:  #a32f2f
+
+
+
+give me a simple code to execute the topic, 
+and explain the topic shortly but include all neccessary details, 
+also mention gotcha, classic traps for the following topics.. 
+the topcis are 
+(base/derived classes, overriding, abstract/interface, virtual methods )
+Encapsulation
+Inheritance
+Abstraction
+Polymorphism
+Method Overloading
+Method Overriding
+Virtual Methods
+Abstract Classes
+Interfaces
+Composition
+
+
+give the most basic code (beginner ) to execute each of the following topics  
+iTextSharp for PDFs, Parsing simple XML/JSON,.... 
+each topic with clean, comment-free code using real-world examples.
+
+
+Topic: ADO.NET (Connecting C# & SQL)
+for a beginner, explain what is the topic,
+the methods with example code snippets...
+explain shortly but don't skip details, 
+also mention why we use  this method, what would happen if we don't use it, any gotcha,trap. 
+any type of error that could be caused by error in syntax
+
+
+
+
+

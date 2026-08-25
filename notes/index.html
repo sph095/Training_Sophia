@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>preventDefault [Example](https://example.com")</title>
+</head>
+<body>
+ <h1>preventDefault Demo</h1>
+
+ <form id="myForm">
+ <label for="name">Name:</label>
+ <input type="text" id="name" placeholder="Type something">
+ <button type="submit">Submit</button>
+ </form>
+
+ <p id="output">Nothing submitted yet.</p>
+
+ <a href="[Example](https://example.com") id="myLink">Click me (won't navigate)</a>
+
+ <script>
+ // Form example
+ document.getElementById("myForm").addEventListener("submit", (event) => {
+ event.preventDefault(); // stop the page reload
+ const name = document.getElementById("name").value;
+ document.getElementById("output").textContent = "Submitted: " + name + " — page did NOT reload!";
+ });
+
+ // Link example
+ document.getElementById("myLink").addEventListener("click", (event) => {
+ event.preventDefault(); // stop navigation
+ alert("Link click intercepted — you stayed on this page!");
+ });
+ </script>
+</body>
+</html>
