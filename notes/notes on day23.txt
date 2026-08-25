@@ -1,0 +1,94 @@
+cd backend
+npm run seed    # if you haven't already
+npm run dev     # http://localhost:4000
+
+cd frontend
+npm run dev     # http://localhost:5173
+
+--checking
+
+http://localhost:5173/
+
+/login  -> admin@parking.com  /  Admin@123
+
+/checkin
+
+Plate KA01AB1234, type Car, pick slot A1
+
+try same spot again
+
+Go to /customer, search KA01AB1234
+
+/checkin, click Check Out next to KA01AB1234 ->back to available
+
+Search KA01AB1234 again on /customer → "No active parking session,"
+
+checkout mail
+
+/admin → "Reserve a Slot": plate KA02CD5678, type Car, pick an available slot (e.g. A2), set a "From"/"To" datetime → Reserve.
+
+Mark Arrived -> disappear from "Upcoming Reservations"
+
+Admin-only protection, Different vehicle types,
+
+
+
+POST   /api/login              { email, password }
+GET    /api/slots
+GET    /api/rates
+POST   /api/checkin             (needs Authorization: Bearer <token>)
+GET    /api/active-sessions     (needs token)
+POST   /api/checkout/:sessionId (needs token)
+GET    /api/lookup/:plateNumber
+POST   /api/bookings            (needs token)
+GET    /api/bookings            (needs token)
+POST   /api/bookings/:id/activate (needs token)
+GET    /api/reports/occupancy   (needs admin token)
+GET    /api/reports/revenue     (needs admin token)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- vite will "hotload" the frontend
+-- nodemon will reload the backend
+
+
+
+
+error
+npm install
+npm run seed
+npm run dev
+netstat -ano | findstr :4000
+
+taskkill /PID <that_number> /F
+
+npm run dev
+
+
+
+
+ref at homw -> https://www.google.com/search?q=how+to+deactivate+ai+mode+on+google&oq=how+to+deactivate+ai+&gs_lcrp=EgZjaHJvbWUqBwgDEAAYgAQyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIHCAUQABiABDIHCAYQABiABDIHCAcQABiABDIHCAgQABiABDIHCAkQABiABNIBCTI2NDIwajBqN6gCALACAA&sourceid=chrome&source=chrome.ob&ie=UTF-8
+
+command to install vite in already created app -> npm install vite --save-dev
+
+zip down -> fronteent vite
+backend npm 
+
+
+
+
+
+
