@@ -1,0 +1,9 @@
+langchain-groq
+langgraph
+langchain-core
+python-dotenv
+gradio
+markdown
+requests
+beautifulsoup4
+ddgs

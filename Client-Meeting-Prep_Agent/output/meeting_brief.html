@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executive Brief</title>
+<style>
+  :root {
+    --ink: #e8eef2;
+    --ink-dim: #9fb3c0;
+    --bg: #0b1220;
+    --panel: #111c2e;
+    --line: #1e2f47;
+    --accent: #2dd4bf;
+    --accent-deep: #0f766e;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 48px 20px 72px;
+    background:
+      radial-gradient(1200px 500px at 15% -10%, rgba(45, 212, 191, 0.12), transparent 60%),
+      radial-gradient(900px 400px at 100% 0%, rgba(56, 189, 248, 0.08), transparent 55%),
+      var(--bg);
+    color: var(--ink);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .brief {
+    max-width: 860px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)), var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 44px 48px 52px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  }
+
+  .brief-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 18px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .stamp {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 12px;
+    white-space: nowrap;
+  }
+
+  h1 {
+    font-size: 30px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin: 0 0 6px;
+    color: #ffffff;
+  }
+
+  h1::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 3px;
+    margin-top: 16px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+
+  h2 {
+    font-size: 17px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin: 38px 0 14px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  h2::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.15);
+    flex: none;
+  }
+
+  h3 { font-size: 15px; margin: 22px 0 8px; color: #ffffff; }
+
+  p { margin: 0 0 14px; }
+
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 9px; }
+  li::marker { color: var(--accent-deep); }
+
+  strong { color: #ffffff; font-weight: 650; }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(45, 212, 191, 0.35);
+    font-weight: 600;
+    word-break: break-word;
+  }
+  a:hover { border-bottom-color: var(--accent); }
+
+  blockquote {
+    margin: 18px 0;
+    padding: 12px 18px;
+    border-left: 3px solid var(--accent);
+    background: rgba(45, 212, 191, 0.06);
+    border-radius: 0 10px 10px 0;
+    color: var(--ink-dim);
+  }
+
+  code {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.88em;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1px 6px;
+  }
+
+  hr {
+    border: 0;
+    height: 1px;
+    margin: 32px 0;
+    background: linear-gradient(90deg, transparent, var(--line), transparent);
+  }
+
+  table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14.5px; }
+  th {
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  td {
+    padding: 11px 12px;
+    border-bottom: 1px solid rgba(30, 47, 71, 0.6);
+    vertical-align: top;
+  }
+  tr:hover td { background: rgba(45, 212, 191, 0.04); }
+
+  .brief-footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-dim);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  @media print {
+    :root { --ink: #0f172a; --ink-dim: #475569; --line: #cbd5e1; --accent: #0f766e; }
+    body { background: #ffffff; color: var(--ink); padding: 0; font-size: 12.5px; line-height: 1.5; }
+    .brief {
+      max-width: none;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: #ffffff;
+      padding: 0;
+    }
+    .brief-header { border-bottom: 2px solid var(--accent); }
+    h1 { font-size: 22px; color: #0f172a; }
+    h2 { font-size: 14px; margin: 20px 0 8px; break-after: avoid; }
+    h1, h2, h3 { break-after: avoid; }
+    li, tr, blockquote { break-inside: avoid; }
+    a { color: #0f766e; border-bottom: none; }
+    .brief-footer { font-size: 10.5px; }
+  }
+
+  @media (max-width: 640px) {
+    .brief { padding: 28px 22px 36px; border-radius: 14px; }
+    h1 { font-size: 24px; }
+    .brief-header { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+  <main class="brief">
+    <header class="brief-header">
+      <span class="eyebrow">Client Meeting Prep</span>
+      <span class="stamp">Executive Brief</span>
+    </header>
+
+    <h1>Executive Brief: CTO | Indian Overseas Bank (IOB)</h1>
+<h2>1. Executive &amp; Institutional Snapshot</h2>
+<ul>
+<li><strong>Executive</strong>: The CTO sits under MD &amp; CEO <strong>Ajay Kumar Srivastava</strong>, who has driven a two-year technology transformation agenda emphasizing AI/ML adoption, data analytics, IT risk management, and digital fraud controls. The CTO is the operational owner of the bank's tech infrastructure, talent, and digital product roadmap. <a href="https://www.psuconnect.in/bank-news/indian-overseas-bank-wins-five-prestigious-iba-banking-technology-awards-for-2024">Source</a></li>
+<li><strong>Institution</strong>: IOB is a <strong>Public Sector Bank headquartered in Chennai</strong>, founded in 1937 (89 years of operation), positioned as a <strong>mid-sized PSU bank</strong> in the IBA's categorization. It is in an aggressive growth phase — adding 88 branches last year and planning <strong>89 new branches + 3 regional offices by FY2026</strong> — while simultaneously pushing digital transformation and financial inclusion. <a href="https://indianpsu.com/indian-overseas-bank-accelerates-growth-with-digital-innovations/">Source</a></li>
+</ul>
+<h2>2. What's Happening Right Now (Tech &amp; Regulatory Context)</h2>
+<ul>
+<li><strong>Five IBA Banking Technology Awards (2024)</strong>: IOB won "Best Tech Talent and Organization," runner-up in "Best Financial Inclusion Technology," and special mentions for <strong>AI &amp; ML Adoption</strong>, "Best Technology Bank," and "Best IT Risk Management" — its second consecutive year of five awards. This signals a CTO who is publicly recognized and will be proud of the AI/ML and IT risk narrative. <a href="https://www.psuconnect.in/bank-news/indian-overseas-bank-wins-five-prestigious-iba-banking-technology-awards-for-2024">Source</a></li>
+<li><strong>Branch Network Expansion</strong>: 89 new branches and 3 regional offices planned by FY2026, following 88 added last year — a major infrastructure and connectivity challenge for the CTO (core banking, network, security at scale). <a href="https://indianpsu.com/indian-overseas-bank-accelerates-growth-with-digital-innovations/">Source</a></li>
+<li><strong>RAM (Retail, Agriculture, MSME) Growth Push</strong>: IOB is entering a new strategic phase anchored in the RAM segments with technology-led delivery — meaning the CTO is likely focused on scalable digital onboarding, credit decisioning, and field-force enablement. <a href="https://corpwhizz.com/2026/06/11/iob-bets-on-digital-ram-growth-for-next-phase-of-expansion/">Source</a></li>
+<li><strong>Digital Financial Inclusion</strong>: A stated priority — digitalization of financial inclusion services, including schemes like STHREE SHAKTHI YOJANA (women's WASH loans), which requires robust last-mile digital delivery. <a href="https://indianpsu.com/indian-overseas-bank-accelerates-growth-with-digital-innovations/">Source</a></li>
+</ul>
+<h2>3. 5 High-Impact Talking Points (Fact-Sourced)</h2>
+<ol>
+<li><strong>AI &amp; ML Adoption as a Differentiator</strong>: IOB earned a special mention for AI &amp; ML Adoption at the 2024 IBA awards — the CTO has a live, public commitment to scaling AI/ML beyond pilots into production (likely fraud detection, credit scoring, customer service). Lead with how your solution accelerates that specific journey. <a href="https://www.psuconnect.in/bank-news/indian-overseas-bank-wins-five-prestigious-iba-banking-technology-awards-for-2024">Source</a></li>
+<li><strong>IT Risk &amp; Digital Fraud Management</strong>: A special mention in "Best IT Risk Management" means the CTO is under regulatory and board scrutiny for cyber resilience, especially as the branch network expands. Frame any pitch around security, compliance, and audit-readiness. <a href="https://www.psuconnect.in/bank-news/indian-overseas-bank-wins-five-prestigious-iba-banking-technology-awards-for-2024">Source</a></li>
+<li><strong>Scaling Infrastructure for 89 New Branches</strong>: Adding ~89 branches and 3 regional offices by FY2026 is a significant network, core-banking, and connectivity undertaking. The CTO is likely managing capacity, latency, and security across a rapidly growing footprint. <a href="https://indianpsu.com/indian-overseas-bank-accelerates-growth-with-digital-innovations/">Source</a></li>
+<li><strong>Tech Talent as a Strategic Asset</strong>: IOB won "Best Tech Talent and Organization" — the CTO has invested in hiring and retaining top tech talent. Acknowledge this investment and position your offering as a force multiplier for their team, not a replacement. <a href="https://www.psuconnect.in/bank-news/indian-overseas-bank-wins-five-prestigious-iba-banking-technology-awards-for-2024">Source</a></li>
+<li><strong>Digital Financial Inclusion at Scale</strong>: IOB is digitizing financial inclusion services (e.g., STHREE SHAKTHI YOJANA for women's sanitation loans) — a mandate tied to RBI's financial inclusion goals. The CTO needs low-cost, high-reach digital channels that work in semi-urban and rural settings. <a href="https://indianpsu.com/indian-overseas-bank-accelerates-growth-with-digital-innovations/">Source</a></li>
+</ol>
+<h2>4. Strategic Meeting Openers (First 5 Minutes)</h2>
+<ul>
+<li><strong>Opener 1 (Relational / Current Milestone)</strong>: "Congratulations on the five IBA Banking Technology awards — the second year in a row. I'm curious, of the five categories, which one is the CTO office most proud of, and which one is the hardest to sustain into 2025?"</li>
+<li><strong>Opener 2 (Strategic / Industry Pain Point)</strong>: "With 89 new branches and 3 regional offices coming online by FY2026, how are you thinking about the architecture — are you standardizing on a single cloud/hybrid model for the new branches, or is there a phased approach? And where does IT risk management fit into that rollout?"</li>
+<li><strong>Opener 3 (Collaborative / Future-Proofing)</strong>: "You've got a special mention for AI &amp; ML adoption. As you move from pilot to production, what's the biggest gap you're seeing — is it data quality, model governance, or finding the right use cases that actually move the RAM (retail, agri, MSME) needle?"</li>
+</ul>
+
+    <footer class="brief-footer">
+      <span>Prepared by Client Meeting Prep Agent</span>
+      <span>Sources cited inline</span>
+    </footer>
+  </main>
+</body>
+</html>
